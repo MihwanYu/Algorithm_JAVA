@@ -3,7 +3,7 @@ package DAY3;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class p2402 {
+public class p2042 {
     static int N, M, K;
     static long[] nums = {1,2,3,4,5};
     static long[] tree;
@@ -20,9 +20,13 @@ public class p2402 {
         }
 
         tree = new long[S*2];
-/*
+        //nums = 1,2,3,4,5
+        init();
+        //1,3,6: 3번째 값 6으로 변경
+        nums[3-1]=6;
 
-*/
+
+
     }
 
     static void init(){
