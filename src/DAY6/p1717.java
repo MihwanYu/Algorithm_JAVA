@@ -41,7 +41,7 @@ public class p1717 {
         int up = findparent(u);
         int vp = findparent(v);
         if (up<vp){
-            parents[vp] = up;
+            parents[vp] = up; //vp의 parent 정보 업데이트 해주기(v아님)
         }else{
             parents[up] = vp;
         }
