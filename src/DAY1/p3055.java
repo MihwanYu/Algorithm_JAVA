@@ -9,10 +9,15 @@ class Point{
     int x,y;
     char type;
 
-    Point(int x, int y, char shape){
+    Point(int y, int x, char shape){
         this.x = x;
         this.y = y;
         this.type = shape;
+    }
+
+    @Override
+    public String toString(){
+        return this.type+" ("+this.y+","+this.x+")";
     }
 }
 public class p3055 {
@@ -23,31 +28,28 @@ public class p3055 {
     static int [][] dp;
     static Queue<Point> queue;
 
-//    static Point st
-    public static void main(String[] args) throws FileNotFoundException {
+    //    static Point st
+    public static void main(String[] args) throws Exception {
+//        물과 고슴도치의 이동을 별개의 queue에 넣어서 구현하면 더 쉬웠을 것 같음
+//        KAKTUS 오타 삽질 ..
         Scanner sc = new Scanner(System.in);
         R = sc.nextInt();
         C = sc.nextInt();
 
         map = new char[R][C];
-        Point st = null;
         dp = new int[R][C];
         queue = new LinkedList<>();
-//        int x = 0;
-//        int y = 0;
-//
-//        for(int i=0; i<4; i++){
-//            int tx = x+MX[i];
-//            int ty = y+MY[i];
-//        }
+
+        Point st = null;
         for(int r = 0; r<R; r++){
             String line = sc.next();
             for (int c = 0; c<C; c++){
                 map[r][c] = line.charAt(c);
-                if(map[r][c]=='*'){
+                if(map[r][c]=='*'){// (r,c)에 물 있으면 queue에 추가
                     queue.add(new Point(r,c,'*'));
-                }else if(map[r][c]=='S'){
-                    queue.add(new Point(r,c,'S'));
+                }else if(map[r][c]=='S'){ // (r,c)에 고슴도치 있으면 queue에 추가
+//                    queue.add(new Point(r,c,'S'));
+                    st = new Point(r,c,'S');
                 }
             }
         }
@@ -67,18 +69,18 @@ public class p3055 {
                 foundAnswer = true;
                 break;
             }
-
             //3. 연결된 곳 순회
             for(int i = 0; i<4; i++){
                 int ty = p.y + MY[i];
                 int tx = p.x + MX[i];
-                //4. 갈 수 있는가 -A
+                //4. 갈 수 있는가 -All
                 if(0<=ty && ty<R && 0<=tx && tx<C){
                     //4. 갈 수 있는가?(고슴도치 -> ., D , 방문체크
                     if(p.type=='.' || p.type =='S'){
                         if((map[ty][tx]=='.' || map[ty][tx]=='D') && dp[ty][tx] ==0 ){
                             //5. 체크인(고슴도치) -> dp
                             dp[ty][tx] = dp[p.y][p.x]+1;
+//                            map[ty][tx] = 'S';
                             //6. 큐에 넣음
                             queue.add(new Point(ty,tx,map[ty][tx]));
                         }
@@ -90,15 +92,26 @@ public class p3055 {
                         }
                     }
 
-
                     //5. 체크인(물) -> map
 
                 }
             }
+            //map 출력 확인
+/*
+            for(int r=0; r<R; r++){
+                for(int c=0; c<C; c++){
+                    System.out.print(dp[r][c]+" ");
+                }
+                System.out.println();
+            }
+            System.out.println(p+"\n");
+
+ */
+
         }
 
         if(foundAnswer==false){
-            System.out.println("KACTUS");
+            System.out.println("KAKTUS");
         }
 
     }
