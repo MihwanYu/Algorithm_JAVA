@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class p10610 {
+    //분류: string
     public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         // 큰 수 N -> string type 입력

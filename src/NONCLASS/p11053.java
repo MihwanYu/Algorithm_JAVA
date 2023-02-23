@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class p11053 {
+    //분류: dp
     public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
