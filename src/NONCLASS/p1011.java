@@ -6,6 +6,7 @@ import java.util.StringTokenizer;
 
 public class p1011 {
     public static void main(String[] args) throws Exception{
+        //접근 방식 표 참고: https://eunhee-programming.tistory.com/99
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int testcase = Integer.parseInt(br.readLine());
         for(int t=0; t<testcase; t++){
