@@ -56,7 +56,7 @@ public class p5639 {
         }
     }
 
-    static void postorder(Node node){
+        static void postorder(Node node){
 
         if(node.left != null){
             postorder(node.left);
