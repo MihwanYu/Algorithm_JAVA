@@ -14,7 +14,7 @@ public class p27649 {
         StringBuilder sb = new StringBuilder();
 
         for(int i=0; i<input.length(); i++){
-            //가 spliters 중 하나라면 공백 추가\
+            //가 spliters 중 하나라면 공백 추가
             char c = input.charAt(i);
             if(input.charAt(i)=='<' || input.charAt(i)=='>' || input.charAt(i)=='(' || input.charAt(i)==')' ){
                 sb.append(" ").append(c).append(" ");
