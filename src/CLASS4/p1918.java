@@ -1,90 +1,62 @@
 package CLASS4;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class p1918 {
-    static class Node{
-        char val;
-        Node parent, leftchild, rightchild;
-        public Node(char val, Node parent, Node leftchild, Node rightchild){
-            this.val = val;
-            this.parent = parent;
-            this.leftchild = leftchild;
-            this.rightchild = rightchild;
-        }
-    }
-
-    static Node root;
 
     public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String input = br.readLine();
+        HashMap<Character, Integer> priority = new HashMap<>(){{
+            put('+', 3); put('-', 3); put('*', 2); put('/', 2); put('(',1); put(')', 1); }};
 
-        Node prior = new Node(input.charAt(0), null, null, null);
-        root = prior;
-
-        for(int i=1; i<input.length(); i++){
-            char a = input.charAt(i);
-            prior = insertNode(a, prior); //prior node의 자식으로 a노드 삽입
-
-        }
-
-        inorder(root);
-
-    }
-
-    //Node 생성 및 삽입 후 생성 Node 반환
-    static Node insertNode(char val, Node prior){
-        if(val>=65){
-            //prior의 child로 들어가야 함
-            if(prior.leftchild == null){
-                prior.leftchild = new Node(val, prior, null, null);
-                return prior.leftchild;
+        //stack에는 연산자만, 알파벳은 나오는 대로 바로 string에 덧셈
+        Stack<Character> stack = new Stack<>();
+        // A  B  C
+        // +  *
+        StringBuilder sb = new StringBuilder("");
+        for(char a: input.toCharArray()){
+            if(a>=65){
+                sb.append(a);
             }else{
-                prior.rightchild = new Node(val, prior, null, null);
-                return prior.rightchild;
+                if(stack.isEmpty()) stack.add(a);
+                else if(a=='(') stack.add(a);
+                else if(a==')'){
+                    //( 만날때까지 다 pop해서 sb에 append
+                    while(stack.peek() != '('){
+                        sb.append(stack.pop());
+                    }
+                    stack.pop();
+                }else{
+                    //  *, / : (만나거나 empty일때까지 모두 pop한뒤 a 추가
+                    if(a=='*' || a=='/'){
+                        while( !stack.isEmpty() &&(stack.peek()=='*' || stack.peek()=='/')){
+                            sb.append(stack.pop());
+                        }
+                        stack.add(a);
+                    }else{
+                        //a가 +, - : 같은 +, -만 pop
+                        while( !stack.isEmpty() &&  stack.peek() != '('){
+                            sb.append(stack.pop());
+                        }
+                        stack.add(a);
+                    }
+                }
             }
-
-        }else if(val=='+' || val=='-'){
-            //prior의 parent로 들어가야 함
-            if(prior.parent == null){
-                prior.parent = new Node(val, null, prior, null);
-                root = prior.parent;
-            }else{
-                //prior에 parent가 있다면 그것의 parent에 삽입
-                prior.parent = insertNode(val, prior.parent);
-            }
-            return prior.parent;
-        }else if(val=='*' || val=='/'){
-            if(prior.parent == null){
-                prior.parent = new Node(val, null, prior, null);
-                root = prior.parent;
-                return prior.parent;
-            }
-
-            Node temp = new Node(prior.val, null, prior.leftchild, prior.rightchild);
-            prior = new Node(val, prior.parent, temp, null);
-            prior.parent.rightchild = prior;
-            temp.parent = prior;
-            return prior;
         }
-        else{
-            // (, )
+
+        //스택 남은 값 제거
+        while( !stack.isEmpty()){
+            sb.append(stack.pop());
         }
-        return prior;//고쳐야함
+
+        System.out.println(sb.toString());
+
+
+
     }
 
-    static void inorder(Node root){
-        if(root.leftchild != null){
-            inorder(root.leftchild);
-        }
 
-        if(root.rightchild != null){
-            inorder(root.rightchild);
-        }
-        System.out.print(root.val + " ");
-    }
 
 }
