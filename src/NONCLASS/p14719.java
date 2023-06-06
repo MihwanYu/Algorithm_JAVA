@@ -15,49 +15,26 @@ public class p14719 {
             raindrops[i] = Integer.parseInt(st.nextToken());
         }
         //11 3 4 5 3 4 5 3 4 5 7<--반례
-
-        int p1=0, p2=0;
         int rainsum = 0;
-        while(p2<W-1){
-            //raindrops[p2] >= raindrops[p1]이면
+        for(int i=1; i<W-1; i++){
+            //i부터 왼쪽 가장 높은 곳
+            //i부터 오른쪽 가장 높은 곳
 
-            //앞 높이 < 뒤 높이일 때
-            if(raindrops[p2] >= raindrops[p1]  ){
-//                System.out.println(p1+"~"+p2);
-                int shorter = raindrops[p1];
-                int rainpart = 0;
-                for(int p=p1+1; p<p2; p++){
-                    rainpart += shorter-raindrops[p];
-                }
-                rainsum += rainpart;
-                p1 = p2;
+            int maxl = 0, maxr = 0;
+            for(int l=i; l>=0; l--){
+                maxl = Math.max(maxl, raindrops[l]);
             }
-            else if(raindrops[p2] >= raindrops[p2+1] && p2-p1>1){
-                //p1부터 빗물 막아서 덧셈   *p1위치가 제일 낮은 곳이라 빗물 안 고였을 수도 있음
-//                System.out.println("(sec)"+p1+"~"+p2);
-                int shorter = raindrops[p1]<raindrops[p2] ? raindrops[p1] : raindrops[p2];
-//                System.out.println("shorter:"+shorter);
-                int rainpart = 0;
-                for(int p=p1+1; p<p2; p++){
-                    if(shorter-raindrops[p]>0)
-                    rainpart += shorter-raindrops[p];
-                }
-                rainsum += rainpart;
-                p1 = p2;
+            for(int r=i; r<W; r++){
+                maxr = Math.max(maxr, raindrops[r]);
             }
-            p2++;
+
+            //maxl, maxr 중 낮은 높이 - 현재 높이 만큼 물 차오름
+            int water = Math.min(maxl, maxr) - raindrops[i];
+            if(water>0){
+                rainsum += water;
+            }
+
         }
-
-
-//        System.out.println("(last)"+p1+"~"+p2);
-        int shorter = raindrops[p1]<raindrops[p2] ? raindrops[p1] : raindrops[p2];
-        int rainpart = 0;
-        for(int p=p1+1; p<p2; p++){
-            if(shorter-raindrops[p]<0) break;
-            rainpart += shorter-raindrops[p];
-        }
-        rainsum += rainpart;
-
 
         System.out.println(rainsum);
 
